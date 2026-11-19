@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+<rect width="1200" height="800" fill="#e8eef3"/>
+<g fill="none" stroke="#66869e" stroke-width="3"><path d="m850 155 170 100-40 180-160 70-100-170zM850 155l-30 350m-100-170 300-80M850 155l130 280m-260-100 260 100"/></g>
+<g fill="#2f526c"><circle cx="850" cy="155" r="13"/><circle cx="1020" cy="255" r="13"/><circle cx="980" cy="435" r="13"/><circle cx="820" cy="505" r="13"/><circle cx="720" cy="335" r="13"/></g>
+<g font-family="Arial,sans-serif" fill="#243b50"><text x="76" y="120" font-size="22" letter-spacing="5">PROJECT OVERVIEW</text><text x="76" y="310" font-size="84" font-weight="700">NeuroScan AI</text><text x="80" y="390" font-size="28">Computer vision · CNN · Explainable AI</text><text x="80" y="704" font-size="22">PYTHON / TENSORFLOW / FLASK</text><text x="1120" y="704" font-size="22" text-anchor="end">2026</text></g>
+<path d="M80 650h1040" stroke="#b5c5d0"/>
+</svg>

@@ -1,0 +1,7 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>IMD</title>
+  <rect width="64" height="64" rx="32" fill="#10483e"/>
+  <path d="M31 26h8l-7 25h-8l7-25Z" fill="#d6e5b6"/>
+  <circle cx="37" cy="17" r="4.5" fill="#d6e5b6"/>
+</svg>
+

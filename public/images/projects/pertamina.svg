@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#102d36"/>
+  <g fill="none" stroke="#365964" stroke-width="2"><path d="M790 140h190v210H790zM695 430h190v190H695zM980 440h120v180H980z"/><path d="M885 350v40H790v40m95-40h155v50"/></g>
+  <g fill="#d9a66a"><circle cx="790" cy="140" r="7"/><circle cx="980" cy="350" r="7"/><circle cx="790" cy="430" r="7"/><circle cx="1040" cy="440" r="7"/></g>
+  <text x="76" y="120" fill="#b5cbd0" font-family="Arial,sans-serif" font-size="22" letter-spacing="5">PROJECT OVERVIEW</text>
+  <text x="76" y="310" fill="#f3eee3" font-family="Arial,sans-serif" font-size="84" font-weight="700">Pertamina</text>
+  <text x="76" y="405" fill="#f3eee3" font-family="Arial,sans-serif" font-size="84" font-weight="700">Supply Chain</text>
+  <text x="80" y="480" fill="#b5cbd0" font-family="Arial,sans-serif" font-size="26">React · React Flow · .NET</text>
+  <path d="M80 650h1040" stroke="#365964"/>
+  <text x="80" y="704" fill="#d9a66a" font-family="Arial,sans-serif" font-size="22">PRIVATE REPOSITORY</text>
+  <text x="1120" y="704" fill="#b5cbd0" font-family="Arial,sans-serif" font-size="22" text-anchor="end">2026</text>
+</svg>

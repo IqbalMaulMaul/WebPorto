@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+<rect width="1200" height="800" fill="#f1e8db"/>
+<g stroke="#ab8165" stroke-width="3" fill="none"><rect x="815" y="125" width="240" height="360" rx="16"/><path d="M850 190h160m-160 55h115m-115 55h160m-160 55h95m-95 65h160"/></g>
+<g font-family="Arial,sans-serif" fill="#513a2c"><text x="76" y="120" font-size="22" letter-spacing="5">PROJECT OVERVIEW</text><text x="76" y="310" font-size="84" font-weight="700">LimaWaktu</text><text x="80" y="400" font-size="52">Tablet POS</text><text x="80" y="480" font-size="26">Menu · Transactions · Sales history</text><text x="80" y="704" font-size="22">REACT / JAVASCRIPT / LARAVEL</text><text x="1120" y="704" font-size="22" text-anchor="end">2026</text></g>
+<path d="M80 650h1040" stroke="#ccb8a5"/>
+</svg>
