@@ -29,7 +29,7 @@ export const SkillsSection = () => {
   return (
     <section id="skills" className="page-section skills-section" aria-labelledby="skills-title">
       <div className="wrap">
-        <div className="section-heading heading-row"><div><span className="section-index">02 / Skills</span><h2 id="skills-title">Tools of the trade.</h2></div><p className="section-note">Frontend engineering.<br />Creative development.</p></div>
+        <div className="section-heading heading-row"><div><span className="section-index">03 / Skills</span><h2 id="skills-title">Tools of the trade.</h2></div><p className="section-note">Frontend engineering.<br />Creative development.</p></div>
         <div className="skill-filters" role="group" aria-label="Filter skills by category">{CATEGORIES.map(category => <button key={category} className="filter-button" aria-pressed={active === category} onClick={() => { if (active !== category) transitionUI(() => setActive(category)); }}>{category}</button>)}</div>
         <div className="skills-grid">{filtered.map(({ id, name, category, icon: Icon }) => <div className="skill-tile" key={id} style={{ viewTransitionName: `skill-${id}` }}><Icon className="tech-icon" /><div><h3>{name}</h3><span>{category}</span></div></div>)}</div>
         <p className="skill-count" role="status">{filtered.length} tools listed{active !== 'All' ? ` in ${active}` : ''}</p>

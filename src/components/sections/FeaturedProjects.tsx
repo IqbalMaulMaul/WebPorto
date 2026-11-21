@@ -22,7 +22,7 @@ export const FeaturedProjects = () => {
   return (
     <section id="projects" className="page-section projects-section" aria-labelledby="projects-title">
       <div className="wrap">
-        <div className="section-heading heading-row"><div><span className="section-index">03 / Projects</span><h2 id="projects-title">Selected work.</h2></div><span className="project-total">{String(projects.length).padStart(2, '0')} projects</span></div>
+        <div className="section-heading heading-row"><div><span className="section-index">04 / Projects</span><h2 id="projects-title">Selected work.</h2></div><span className="project-total">{String(projects.length).padStart(2, '0')} projects</span></div>
         {loading ? <div className="projects-loading" role="status">Loading projects…</div> : projects.length ? <div className="project-grid">
           {projects.map((project, index) => <article key={project.id} className="card work-card">
             <div className="work-surface">

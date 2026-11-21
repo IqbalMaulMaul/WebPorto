@@ -16,6 +16,10 @@ export function useStudioMotion() {
       if (!context.conditions?.motion) {
         // CSS duration changes alone don't stop a transition already in flight.
         root.getAnimations({ subtree: true }).forEach(animation => animation.cancel());
+        // Completed one-shot reveals can retain their start styles after a media change.
+        gsap.set(root.querySelectorAll('.section-heading, .work-surface, .about-portrait, .career-card'), {
+          clearProps: 'transform,opacity,clipPath',
+        });
         return;
       }
       const desktop = context.conditions.desktop;
@@ -29,7 +33,7 @@ export function useStudioMotion() {
 
       // Late-loaded projects share this context, including route/preference cleanup.
       const discover = context.add('discover', () => {
-        root.querySelectorAll('.section-heading, .work-surface, .about-portrait, .timeline-row').forEach(element => {
+        root.querySelectorAll('.section-heading, .work-surface, .about-portrait, .career-card').forEach(element => {
           if (seen.has(element)) return;
           seen.add(element);
           const heading = element.matches('.section-heading');

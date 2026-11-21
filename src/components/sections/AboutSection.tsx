@@ -3,7 +3,7 @@
 export const AboutSection = () => (
   <section id="about" className="page-section about-section" aria-labelledby="about-title">
     <div className="wrap">
-      <div className="section-heading"><span className="section-index">01 / About</span><h2 id="about-title">The person behind<br />the interface.</h2></div>
+      <div className="section-heading"><span className="section-index">02 / About</span><h2 id="about-title">The person behind<br />the interface.</h2></div>
       <div className="about-layout">
         <div className="about-copy">
           <h3>Curious mind. Creative builder.</h3>

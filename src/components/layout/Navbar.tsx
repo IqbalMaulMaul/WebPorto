@@ -2,7 +2,7 @@
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
-const links = [{ name: 'About', id: 'about' }, { name: 'Skills', id: 'skills' }, { name: 'Projects', id: 'projects' }, { name: 'Experience', id: 'experience' }];
+const links = [{ name: 'Experience', id: 'experience' }, { name: 'About', id: 'about' }, { name: 'Skills', id: 'skills' }, { name: 'Projects', id: 'projects' }];
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);

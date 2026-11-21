@@ -9,6 +9,6 @@ import { MaterialStudy } from '../../components/sections/MaterialStudy';
 
 export const HomePage = () => {
   useStudioMotion();
-  return <><HeroSection /><AboutSection /><SkillsSection /><MaterialStudy /><FeaturedProjects /><ExperienceTimeline /><ContactSection /></>;
+  return <><HeroSection /><ExperienceTimeline /><AboutSection /><SkillsSection /><MaterialStudy /><FeaturedProjects /><ContactSection /></>;
 };
 
