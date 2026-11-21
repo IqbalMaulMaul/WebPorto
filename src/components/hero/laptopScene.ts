@@ -24,6 +24,15 @@ export function laptopPose(width: number, height: number, mode: 'hero' | 'case',
     scale = Math.min((width - 28) / 905, Math.max(0.16, (height - navHeight - uiBottom) / 667));
     x = width / 2 - 720 * scale;
     y = height - navHeight - 762 * scale;
+  } else if (mode === 'case') {
+    // Keep the photographed laptop in its own column, clear of the project panel.
+    const edge = Math.max(24, Math.min(40, width * 0.025));
+    const panelWidth = Math.max(280, Math.min(340, width * 0.23));
+    const stageWidth = width - panelWidth - edge * 3;
+    const top = 88, bottom = 80;
+    scale = Math.min(stageWidth / 1130, Math.max(0.16, (height - top - bottom) / 683));
+    x = edge + stageWidth / 2 - 720 * scale;
+    y = top + Math.max(0, (height - top - bottom - 683 * scale) / 2) - 79 * scale;
   } else {
     const cover = Math.max(width / 1440, height / 810);
     const top = 66 * unit;

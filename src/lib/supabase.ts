@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Project, Technology, Experience, SocialLink, ContactMessage } from '../types';
 import { INITIAL_PROJECTS, INITIAL_TECHNOLOGIES, INITIAL_EXPERIENCES, INITIAL_SOCIALS } from './mockData';
-import { refreshProjectCatalog } from './projectCatalog';
+import { GITHUB_PROJECTS, refreshProjectCatalog } from './projectCatalog';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || import.meta.env.VITE_SUPABASE_ANON_KEY || '';
@@ -17,9 +17,17 @@ export const getProjects = async (): Promise<Project[]> => {
     try {
       const { data, error } = await supabase
         .from('projects')
-        .select('*')
+        .select('*, project_technologies(technology:technologies(*))')
         .order('sort_order', { ascending: true });
-      if (!error && data && data.length > 0) return refreshProjectCatalog(data as Project[]);
+      if (!error && data && data.length > 0) {
+        const projects = data as unknown as (Project & { project_technologies: { technology: Technology | null }[] })[];
+        return refreshProjectCatalog(projects.map(({ project_technologies, ...project }) => {
+          const linked = project_technologies.map(link => link.technology).filter((technology): technology is Technology => technology !== null);
+          // Existing catalog projects may be seeded before their technology relations.
+          const technologies = linked.length ? linked : GITHUB_PROJECTS.find(item => item.slug === project.slug)?.technologies ?? [];
+          return { ...project, technologies };
+        }));
+      }
     } catch (e) {
       console.warn('Supabase fetch failed, loading local projects fallback.', e);
     }

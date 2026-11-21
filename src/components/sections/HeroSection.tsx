@@ -84,7 +84,9 @@ export const HeroSection = () => {
           <video className="dive-transition" muted playsInline preload="auto" disablePictureInPicture />
           <img className="dive-caseplate" src={laptopAssets.casePlate} alt="" width="1440" height="956" onError={() => setAssetError(true)} />
           <div className="dive-screen">
-            {project && !coverError && <img className="dive-preview" src={project.cover_image} alt="" width="894" height="605" onError={() => setFailedCover(project.id)} />}
+            {project && !coverError && <div className={`dive-preview ${project.screenshots && project.screenshots.length > 1 ? 'dive-preview--gallery' : ''}`}>
+              {(project.screenshots && project.screenshots.length > 1 ? project.screenshots.slice(0, 3) : [project.cover_image]).map(source => <img key={source} src={source} alt="" onError={() => setFailedCover(project.id)} />)}
+            </div>}
             {project && coverError && <div className="dive-cover-fallback">{project.title}</div>}
             <div className="dive-flash" />
           </div>
@@ -92,8 +94,8 @@ export const HeroSection = () => {
       </div>
       <div className="dive-ui">
         <nav className="dive-nav" aria-label="Studio navigation">
-          <button className="dive-nav-tag dive-tag-studio" onClick={dive.home} disabled={dive.busy}>my studio</button>
-          <button className="dive-nav-tag dive-tag-work" onClick={dive.next} disabled={dive.busy || !projects.length}>portfolio <ArrowUpRight size={15} /></button>
+          <button className="dive-nav-tag dive-tag-studio" data-selected={dive.mode === 'hero'} onClick={dive.home} disabled={dive.busy}>my studio</button>
+          <button className="dive-nav-tag dive-tag-work" data-selected={dive.mode === 'case'} onClick={dive.next} disabled={dive.busy || !projects.length}>portfolio <ArrowUpRight size={15} /></button>
           <button className="dive-nav-tag dive-tag-contact" onClick={() => leave('contact')}>contacts</button>
           <button className="dive-nav-tag dive-tag-discuss" onClick={() => leave('contact')}>discuss a project <ArrowUpRight size={15} /></button>
           <button className="dive-centre-logo" onClick={dive.home} disabled={dive.busy} aria-label="Return to my studio">IMD.</button>
@@ -108,12 +110,13 @@ export const HeroSection = () => {
         <button className="dive-hint dive-hero-content" onClick={dive.next} disabled={dive.busy || !projects.length}><span className="dive-drip" />scroll into the work <ArrowDown size={14} /></button>
         <div className="dive-case-ui" inert={dive.busy || dive.mode !== 'case'}>
           <button className="dive-screen-hit" onClick={dive.next} disabled={dive.busy || !projects.length} aria-label="Next project on laptop screen" />
+          <div className="dive-project-panel">
           {project ? <>
             <article className="dive-ticket" aria-live="polite" aria-atomic="true">
               <i /><i /><i /><i />
               <span className="dive-ticket-eyebrow">Selected project / {String(dive.index + 1).padStart(2, '0')}</span>
               <h2>{project.title}</h2>
-              <div className="dive-ticket-rows"><span>{project.role}</span><span>{project.technologies?.slice(0, 3).map(item => item.name).join(' / ')}</span><span>{project.period}</span></div>
+              <div className="dive-ticket-rows"><span>{project.role}</span>{!!project.technologies?.length && <span>{project.technologies.slice(0, 3).map(item => item.name).join(' / ')}</span>}<span>{project.period}</span></div>
             </article>
             <div className="dive-description">
               <span className="dive-description-key">// selected work</span>
@@ -124,8 +127,9 @@ export const HeroSection = () => {
             </div>
           </> : <><div className="dive-ticket"><h2>Projects</h2></div><div className="dive-description">Explore the full portfolio below.</div></>}
           <div className="dive-case-navigation">
-            <button className={`dive-case-button dive-previous ${dive.index === 0 ? 'dim' : ''}`} onClick={dive.previous} disabled={dive.busy} aria-label={dive.index === 0 ? 'Return to my studio' : 'Previous project'}><span><ArrowLeft /></span><b>previous <br />case</b></button>
-            <button className="dive-case-button dive-next" onClick={dive.next} disabled={dive.busy || !projects.length} aria-label="Next project"><span><ArrowRight /></span><b>next <br />case</b></button>
+            <button className={`dive-case-button dive-previous ${dive.index === 0 ? 'dim' : ''}`} onClick={dive.previous} disabled={dive.busy} aria-label={dive.index === 0 ? 'Return to my studio' : 'Previous project'}><span><ArrowLeft /></span><b>Previous</b></button>
+            <button className="dive-case-button dive-next" onClick={dive.next} disabled={dive.busy || !projects.length} aria-label="Next project"><span><ArrowRight /></span><b>Next</b></button>
+          </div>
           </div>
         </div>
         <div className="dive-utilities">

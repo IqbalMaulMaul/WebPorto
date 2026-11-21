@@ -35,7 +35,10 @@ body.dive-active>.nav,body.dive-active .nav,body.dive-active .site-footer{visibi
 .dive-badge-row b{font-weight:600;text-align:right}.dive-badge-email{font-size:8px;gap:3px}
 .dive-badge-hit{position:absolute;left:160px;top:470px;width:262px;height:440px;pointer-events:auto;cursor:grab}
 .dive-screen{position:absolute;z-index:8;left:272.8px;top:102.7px;width:894.4px;height:604.7px;border-radius:3px;background:#000;overflow:hidden;opacity:0}
-.dive-preview{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+.dive-preview{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#eef0eb;overflow:hidden}
+.dive-preview img{display:block;width:100%;height:100%;min-width:0;object-fit:contain}
+.dive-preview--gallery{gap:24px;padding:30px 24px;background:#e8e5de}
+.dive-preview--gallery img{flex:1;width:0;height:100%;filter:drop-shadow(0 8px 10px #15271d22)}
 .dive-screen:after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,#ffffff12 0%,transparent 38%);pointer-events:none}
 .dive-flash{position:absolute;inset:0;background:white;opacity:0;z-index:2}
 .dive-cover-fallback{height:100%;display:grid;place-items:center;padding:80px;background:#103d34;font:700 70px/1.1 'Inter Tight',sans-serif;text-align:center}
@@ -44,8 +47,7 @@ body.dive-active>.nav,body.dive-active .nav,body.dive-active .site-footer{visibi
 .dive-screen-hit{position:absolute;cursor:pointer}
 .laptop-dive[data-ready=false] .dive-hero-content,.laptop-dive[data-ready=false] .dive-nav-tag{opacity:0}
 .laptop-dive[data-paused=true] .dive-drip:after{animation-play-state:paused}
-.dive-nav-tag{position:absolute;top:max(8px,calc(7 * var(--du)));height:max(44px,calc(37 * var(--du)));padding:0 max(14px,calc(18 * var(--du)));display:flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;background:#fff!important;color:#0d0f0e!important;font-size:max(13px,calc(16.5 * var(--du)));font-weight:650;letter-spacing:-.02em;box-shadow:0 3px 0 #0003,0 6px 14px #0003;transition:translate .25s,rotate .25s,box-shadow .25s}
-.dive-nav-tag:hover{translate:0 -2px;rotate:-1.5deg;box-shadow:0 5px 0 #0004,0 10px 18px #0003}.dive-nav-tag:active{translate:0 1px;box-shadow:0 1px 0 #0003}
+.dive-nav-tag{position:absolute;top:16px;height:44px;padding:0 18px;display:flex;align-items:center;justify-content:center;gap:10px;white-space:nowrap;background:#f7f5ee!important;color:#103c2e!important;border-radius:12px;font-size:14px;font-weight:650;letter-spacing:-.01em;box-shadow:0 4px 14px #0002}
 .dive-tag-studio{left:calc(30 * var(--du))}.dive-tag-work{left:calc(233 * var(--du))}.dive-tag-contact{right:calc(244 * var(--du))}.dive-tag-discuss{right:calc(32 * var(--du))}
 .dive-centre-logo{position:absolute;top:calc(14 * var(--du));left:50%;translate:-50% 0;min-height:44px;font-size:19px;font-weight:700;letter-spacing:.14em;opacity:0;visibility:hidden;transition:opacity .4s}
 .laptop-dive[data-mode=case] .dive-centre-logo{opacity:1;visibility:visible}
@@ -59,6 +61,7 @@ body.dive-active>.nav,body.dive-active .nav,body.dive-active .site-footer{visibi
 @keyframes dive-drip{to{top:100%}}
 .dive-case-ui{visibility:hidden}.laptop-dive[data-mode=case] .dive-case-ui{visibility:visible}
 .laptop-dive[data-mode=case] .dive-intro,.laptop-dive[data-mode=case] .dive-hint{visibility:hidden;pointer-events:none}
+.laptop-dive[data-mode=case] .dive-hero-content{visibility:hidden;pointer-events:none}
 .laptop-dive[data-mode=case] .dive-intro button{pointer-events:none}
 .laptop-dive[data-busy=true] .dive-hint{visibility:hidden}
 .dive-ticket{position:absolute;right:calc(32 * var(--du));top:calc(98 * var(--du));width:calc(348 * var(--du));min-width:250px;min-height:calc(182 * var(--du));padding:calc(26 * var(--du)) calc(30 * var(--du)) calc(22 * var(--du)) calc(38 * var(--du));background:#fff;color:#0d0f0e;border-radius:3px;box-shadow:0 18px 40px #0005;transform-origin:50% 0;opacity:0}
@@ -97,3 +100,48 @@ body.dive-active>.nav,body.dive-active .nav,body.dive-active .site-footer{visibi
 .dive-description-actions{display:flex;align-items:center;flex-wrap:wrap;column-gap:18px}.dive-description-actions .dive-detail-link{margin-top:8px}.dive-description-actions .dive-full-portfolio{position:static;translate:none;min-height:44px;margin-top:8px;color:white;text-decoration:underline;text-underline-offset:4px;white-space:nowrap}
 .dive-description .project-links{margin-top:12px;text-shadow:none}.dive-description .project-link--demo{background:#f4f1e8;color:#143b2c;border-color:#f4f1e8;min-height:44px}.dive-description .project-access{color:#f4f1e8;font-size:11px}.dive-description:has(.project-links) .dive-case-count{margin-top:12px}
 @media(max-width:820px){.dive-description-actions .dive-detail-link,.dive-description-actions .dive-full-portfolio{margin-top:3px;min-height:36px}}
+
+/* The case panel owns its buttons; it never competes with the laptop for space. */
+.dive-project-panel{display:contents}
+.laptop-dive .dive-case-button{height:48px;min-width:110px;flex-direction:row;justify-content:center;gap:8px;padding:0 14px;border:1px solid #ffffff38;border-radius:12px;background:#123e31;color:#f7f5ee}
+.laptop-dive .dive-case-button>span{width:20px;height:20px;min-width:0;border:0;background:none;color:inherit;border-radius:0;transform:none}
+.laptop-dive .dive-case-button svg{width:20px;height:20px}
+.laptop-dive .dive-case-button b{font-size:13px;font-weight:600;line-height:1;color:inherit}
+.laptop-dive .dive-next{flex-direction:row-reverse;background:#f7f5ee;color:#123e31;border-color:#f7f5ee}
+.laptop-dive .dive-previous.dim{opacity:1}
+.dive-description-actions{gap:8px}
+.dive-description-actions .dive-detail-link,.dive-description-actions .dive-full-portfolio{min-height:44px;padding:0 12px;border:1px solid #ffffff38;border-radius:10px;text-decoration:none;font-size:12px;white-space:nowrap;justify-content:center}
+.dive-description .project-link--demo{border-radius:10px}
+.dive-nav-tag,.dive-case-button,.dive-description-actions>a,.dive-description-actions>button,.dive-description .project-link,.dive-utilities button{transition:translate .22s cubic-bezier(.2,.8,.2,1),background-color .22s,color .22s,box-shadow .22s,border-color .22s;touch-action:manipulation}
+.laptop-dive button:disabled{cursor:wait}
+.dive-nav-tag:disabled,.dive-case-button:disabled{filter:saturate(.5);box-shadow:none}
+@media(hover:hover) and (pointer:fine){
+ .dive-nav-tag:not(:disabled):hover,.dive-case-button:not(:disabled):hover,.dive-description-actions>a:hover,.dive-description-actions>button:hover,.dive-description .project-link:hover{translate:0 -2px;box-shadow:0 6px 16px #0002}
+ .dive-nav-tag:not(:disabled):hover{background:#e5eddc!important}
+ .dive-description-actions>a:hover,.dive-description-actions>button:hover,.dive-utilities button:hover{background:#ffffff14}
+}
+.dive-nav-tag:not(:disabled):active,.dive-case-button:not(:disabled):active,.dive-description-actions>a:active,.dive-description-actions>button:active,.dive-description .project-link:active{translate:0 1px;box-shadow:none}
+.laptop-dive :focus-visible{outline:3px solid #d2e7a4;outline-offset:4px}
+@media(min-width:821px){
+ .dive-project-panel{position:absolute;display:flex;flex-direction:column;gap:18px;right:clamp(24px,2.5vw,40px);top:88px;width:clamp(280px,23vw,340px);height:min(620px,calc(100% - 164px));max-height:calc(100% - 164px);overflow-y:auto;overscroll-behavior:contain;pointer-events:auto;padding:16px;border:1px solid #ffffff20;border-radius:24px;background:#103c30ed;box-shadow:0 16px 40px #001e1826;scrollbar-width:thin}
+ .dive-project-panel .dive-ticket{position:relative;inset:auto;width:100%;min-width:0;min-height:220px;padding:22px 24px 18px;border-radius:12px;box-shadow:none;flex-shrink:0}
+ .dive-ticket h2{font-size:clamp(23px,2vw,30px)}
+ .dive-ticket>i{width:10px;height:10px;min-width:10px;min-height:10px;left:8px;top:8px}
+ .dive-ticket>i:nth-child(2){right:8px}.dive-ticket>i:nth-child(3){bottom:8px}.dive-ticket>i:nth-child(4){right:8px;bottom:8px}
+ .dive-ticket-rows{font-size:11px;line-height:1.35}
+ .dive-project-panel .dive-description{position:relative;inset:auto;width:100%;min-width:0;padding:0 2px;background:none;text-shadow:none;flex-shrink:0}
+ .dive-description-key{display:none}.dive-description p{margin-top:0;font-size:14px;line-height:1.5}
+ .dive-description-actions{margin-top:4px}.dive-description-actions .dive-detail-link,.dive-description-actions .dive-full-portfolio{flex:1;margin-top:0;padding:0 8px}
+ .dive-case-count{font-size:10px;margin-bottom:12px}
+ .dive-project-panel .dive-case-navigation{position:relative;inset:auto;display:flex;gap:10px;flex-shrink:0;margin-top:auto}
+ .dive-project-panel .dive-case-button{position:static;flex:1;min-width:0}
+ .dive-tag-studio{left:clamp(24px,2.5vw,40px)}.dive-tag-work{left:calc(clamp(24px,2.5vw,40px) + 128px)}
+ .dive-tag-discuss{right:clamp(24px,2.5vw,40px)}.dive-tag-contact{right:calc(clamp(24px,2.5vw,40px) + 200px)}
+}
+@media(min-width:821px) and (max-height:740px){
+ .dive-project-panel{gap:12px;padding:12px;top:76px;height:calc(100% - 144px);max-height:calc(100% - 144px)}
+ .dive-project-panel .dive-ticket{min-height:186px;padding:18px 22px 14px}.dive-ticket h2{font-size:23px}.dive-ticket-eyebrow{margin-bottom:8px}.dive-ticket-rows{margin-top:8px;font-size:10px}
+ .dive-description p{font-size:13px;line-height:1.4}.dive-description .project-links{margin-top:8px}
+ .dive-description:has(.project-links) .dive-case-count{margin-top:8px;margin-bottom:8px}
+}
+@media(prefers-reduced-motion:reduce){.laptop-dive .dive-nav-tag,.laptop-dive .dive-case-button,.laptop-dive .dive-description-actions>*{translate:none!important}}

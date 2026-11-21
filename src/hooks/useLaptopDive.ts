@@ -101,8 +101,10 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
       set('.dive-flash', { opacity: motionOff() ? 0 : 0.35 });
       tween(q('.dive-flash'), { opacity: 0, duration: 0.42 });
       tween(q('.dive-preview'), { opacity: 1, scale: 1, duration: 0.7 });
-      tween(q('.dive-description > *'), { opacity: 1, y: 0, stagger: motionOff() ? 0 : 0.07, delay: motionOff() ? 0 : 0.15, duration: 0.6 });
-      await tween(q('.dive-ticket'), { opacity: 1, y: 0, rotation: 0, duration: 0.8, ease: 'back.out(1.25)' });
+      await Promise.all([
+        tween(q('.dive-description > *'), { opacity: 1, y: 0, stagger: motionOff() ? 0 : 0.045, delay: motionOff() ? 0 : 0.1, duration: 0.45 }),
+        tween(q('.dive-ticket'), { opacity: 1, y: 0, rotation: 0, duration: 0.7, ease: 'power3.out' }),
+      ]);
       if (valid(token)) { busy = false; publish(); place(); }
     };
     const playDive = () => new Promise<void>(resolve => {
@@ -128,6 +130,8 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
     const enter = async () => {
       if (busy || !count) return;
       busy = true; const token = ++epoch; sway?.kill(); publish();
+      // A click during the entrance must not let its delayed tweens restore the hero.
+      gsap.killTweensOf(q('.dive-hero-content'));
       tween(q('.dive-wordmark'), { opacity: 0, y: -40, duration: 0.38 });
       tween(q('.dive-script,.dive-intro,.dive-hint'), { opacity: 0, duration: 0.3 });
       await tween(q('.dive-badge'), { opacity: 0, yPercent: -110, rotation: -6, duration: 0.33 });
@@ -179,6 +183,8 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
     };
     const wheel = (event: WheelEvent) => {
       if (!activeRef.current || event.ctrlKey || event.metaKey) return;
+      const panel = event.target instanceof Element ? event.target.closest('.dive-project-panel') : null;
+      if (panel && panel.scrollHeight > panel.clientHeight + 1) return;
       event.preventDefault();
       if (busy || Math.abs(event.deltaY) < 18 || performance.now() - wheelAt < 900) return;
       wheelAt = performance.now();
