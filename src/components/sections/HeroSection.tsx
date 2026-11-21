@@ -48,8 +48,9 @@ export const HeroSection = () => {
   }, []);
   useEffect(() => {
     document.body.classList.toggle('dive-active', active);
-    return () => document.body.classList.remove('dive-active');
-  }, [active]);
+    document.body.classList.toggle('dive-scroll-locked', active && dive.mode === 'hero');
+    return () => document.body.classList.remove('dive-active', 'dive-scroll-locked');
+  }, [active, dive.mode]);
   useEffect(() => {
     let initial = true;
     const observer = new IntersectionObserver(([entry]) => {
@@ -95,7 +96,7 @@ export const HeroSection = () => {
       <div className="dive-ui">
         <nav className="dive-nav" aria-label="Studio navigation">
           <button className="dive-nav-tag dive-tag-studio" data-selected={dive.mode === 'hero'} onClick={dive.home} disabled={dive.busy}>my studio</button>
-          <button className="dive-nav-tag dive-tag-work" data-selected={dive.mode === 'case'} onClick={dive.next} disabled={dive.busy || !projects.length}>portfolio <ArrowUpRight size={15} /></button>
+          <button className="dive-nav-tag dive-tag-work" data-selected={dive.mode === 'case'} onClick={dive.open} disabled={dive.busy || !projects.length}>portfolio <ArrowUpRight size={15} /></button>
           <button className="dive-nav-tag dive-tag-contact" onClick={() => leave('contact')}>contacts</button>
           <button className="dive-nav-tag dive-tag-discuss" onClick={() => leave('contact')}>discuss a project <ArrowUpRight size={15} /></button>
           <button className="dive-centre-logo" onClick={dive.home} disabled={dive.busy} aria-label="Return to my studio">IMD.</button>
@@ -107,9 +108,8 @@ export const HeroSection = () => {
           <p>I build thoughtful interfaces and interactive web experiences — where clean code meets a little imagination.</p>
           <div className="dive-intro-footer"><span>Based in Indonesia</span><button onClick={() => leave('about')}>A little about me <ArrowUpRight size={15} /></button></div>
         </div>
-        <button className="dive-hint dive-hero-content" onClick={dive.next} disabled={dive.busy || !projects.length}><span className="dive-drip" />scroll into the work <ArrowDown size={14} /></button>
+        <button className="dive-hint dive-hero-content" onClick={dive.open} disabled={dive.busy || !projects.length}><span className="dive-drip" />scroll into the work <ArrowDown size={14} /></button>
         <div className="dive-case-ui" inert={dive.busy || dive.mode !== 'case'}>
-          <button className="dive-screen-hit" onClick={dive.next} disabled={dive.busy || !projects.length} aria-label="Next project on laptop screen" />
           <div className="dive-project-panel">
           {project ? <>
             <article className="dive-ticket" aria-live="polite" aria-atomic="true">

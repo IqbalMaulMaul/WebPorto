@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import { laptopAssets, laptopPose } from '../components/hero/laptopScene';
 
 type Mode = 'hero' | 'case';
-type Controls = { next: () => void; previous: () => void; home: () => void; pause: () => void; settle: () => void };
+type Controls = { open: () => void; next: () => void; previous: () => void; home: () => void; pause: () => void; settle: () => void };
 
 export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: number, active: boolean) {
   const [view, setView] = useState({ mode: 'hero' as Mode, index: 0, busy: false, paused: false });
@@ -54,8 +54,6 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
       const badge = frame.querySelector<HTMLElement>('.dive-badge-anchor')!;
       badge.style.left = `${p.badgeLeft}px`; badge.style.top = `${p.badgeTop}px`;
       frame.querySelector<HTMLElement>('.dive-script')!.style.left = `${p.scriptLeft}px`;
-      const hit = root.querySelector<HTMLElement>('.dive-screen-hit')!;
-      Object.assign(hit.style, { left: `${p.x + 272.8 * p.scale}px`, top: `${p.y + 102.7 * p.scale}px`, width: `${894.4 * p.scale}px`, height: `${604.7 * p.scale}px` });
     };
     const startSway = () => {
       sway?.kill();
@@ -175,16 +173,15 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
       if (valid(token)) { place(0.45); await caseIn(token); }
     };
     controls.current = {
+      open: () => { if (mode === 'hero') void enter(); },
       next: () => { if (mode === 'hero') void enter(); else void swap(index + 1); },
       previous: () => { if (mode === 'case') void swap(index - 1); },
       home: () => { void home(); },
       pause: () => { paused = !paused; settle(); },
-      settle: () => { mode = 'hero'; settle(); },
+      settle,
     };
     const wheel = (event: WheelEvent) => {
-      if (!activeRef.current || event.ctrlKey || event.metaKey) return;
-      const panel = event.target instanceof Element ? event.target.closest('.dive-project-panel') : null;
-      if (panel && panel.scrollHeight > panel.clientHeight + 1) return;
+      if (!activeRef.current || mode === 'case' || event.ctrlKey || event.metaKey) return;
       event.preventDefault();
       if (busy || Math.abs(event.deltaY) < 18 || performance.now() - wheelAt < 900) return;
       wheelAt = performance.now();
@@ -192,15 +189,19 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
     };
     const key = (event: KeyboardEvent) => {
       if (!activeRef.current || event.ctrlKey || event.metaKey || event.altKey || (event.target instanceof Element && event.target.closest('input,textarea,select,[contenteditable="true"]'))) return;
+      if (mode === 'case') {
+        if (event.code === 'Escape' && !busy) controls.current?.home();
+        return;
+      }
       if (event.code === 'Space' && event.target instanceof Element && event.target.closest('button,a')) return;
       if (['ArrowDown', 'ArrowRight', 'PageDown', 'Space'].includes(event.code)) { event.preventDefault(); controls.current?.next(); }
       if (['ArrowUp', 'ArrowLeft', 'PageUp'].includes(event.code)) { event.preventDefault(); controls.current?.previous(); }
       if (event.code === 'Escape' && !busy) controls.current?.home();
     };
     let touch: { x: number; y: number } | null = null;
-    const down = (event: PointerEvent) => { if (event.pointerType === 'touch' && event.isPrimary) touch = { x: event.clientX, y: event.clientY }; };
+    const down = (event: PointerEvent) => { if (mode === 'hero' && event.pointerType === 'touch' && event.isPrimary) touch = { x: event.clientX, y: event.clientY }; };
     const up = (event: PointerEvent) => {
-      if (!touch || !activeRef.current) return;
+      if (!touch || !activeRef.current || mode === 'case') { touch = null; return; }
       const dx = touch.x - event.clientX, dy = touch.y - event.clientY; touch = null;
       const distance = Math.abs(dx) > Math.abs(dy) ? dx : dy;
       if (Math.abs(distance) >= 40) { if (distance > 0) controls.current?.next(); else controls.current?.previous(); }
@@ -239,5 +240,5 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
       window.removeEventListener('keydown', key); media.removeEventListener('change', settle); document.removeEventListener('visibilitychange', visibility);
     };
   }, [rootRef, count]);
-  return { ...view, next: () => controls.current?.next(), previous: () => controls.current?.previous(), home: () => controls.current?.home(), pause: () => controls.current?.pause() };
+  return { ...view, open: () => controls.current?.open(), next: () => controls.current?.next(), previous: () => controls.current?.previous(), home: () => controls.current?.home(), pause: () => controls.current?.pause() };
 }
