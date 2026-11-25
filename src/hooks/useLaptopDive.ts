@@ -180,8 +180,24 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
       pause: () => { paused = !paused; settle(); },
       settle,
     };
+    const canReturnHome = (target: EventTarget | null) => {
+      if (!activeRef.current || mode !== 'case' || busy || Math.abs(root.getBoundingClientRect().top) > 1) return false;
+      // Let a nested project panel finish scrolling up before leaving the showcase.
+      for (let element = target instanceof Element ? target : null; element && element !== root; element = element.parentElement) {
+        if (element.scrollTop > 1 && /(auto|scroll)/.test(getComputedStyle(element).overflowY)) return false;
+      }
+      return true;
+    };
     const wheel = (event: WheelEvent) => {
-      if (!activeRef.current || mode === 'case' || event.ctrlKey || event.metaKey) return;
+      if (!activeRef.current || event.ctrlKey || event.metaKey) return;
+      if (mode === 'case') {
+        if (event.deltaY <= -18 && Math.abs(event.deltaY) > Math.abs(event.deltaX) && canReturnHome(event.target)) {
+          event.preventDefault();
+          wheelAt = performance.now();
+          void home();
+        }
+        return;
+      }
       event.preventDefault();
       if (busy || Math.abs(event.deltaY) < 18 || performance.now() - wheelAt < 900) return;
       wheelAt = performance.now();
@@ -191,6 +207,10 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
       if (!activeRef.current || event.ctrlKey || event.metaKey || event.altKey || (event.target instanceof Element && event.target.closest('input,textarea,select,[contenteditable="true"]'))) return;
       if (mode === 'case') {
         if (event.code === 'Escape' && !busy) controls.current?.home();
+        else if (['ArrowUp', 'PageUp', 'Home'].includes(event.code) && canReturnHome(event.target)) {
+          event.preventDefault();
+          void home();
+        }
         return;
       }
       if (event.code === 'Space' && event.target instanceof Element && event.target.closest('button,a')) return;
@@ -207,10 +227,30 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
       if (Math.abs(distance) >= 40) { if (distance > 0) controls.current?.next(); else controls.current?.previous(); }
     };
     const cancelTouch = () => { touch = null; };
+    let returnTouch: { x: number; y: number } | null = null;
+    const returnTouchStart = (event: TouchEvent) => {
+      returnTouch = event.touches.length === 1 && canReturnHome(event.target)
+        ? { x: event.touches[0].clientX, y: event.touches[0].clientY } : null;
+    };
+    const returnTouchMove = (event: TouchEvent) => {
+      if (!returnTouch || event.touches.length !== 1) { returnTouch = null; return; }
+      const dx = event.touches[0].clientX - returnTouch.x;
+      const dy = event.touches[0].clientY - returnTouch.y;
+      if (dy < -10 || Math.abs(dx) > 40) { returnTouch = null; return; }
+      if (dy >= 40 && dy > Math.abs(dx) && canReturnHome(event.target)) {
+        if (event.cancelable) event.preventDefault();
+        returnTouch = null;
+        void home();
+      }
+    };
+    const returnTouchEnd = () => { returnTouch = null; };
     const swing = () => { if (!busy && mode === 'hero' && !motionOff()) { sway?.kill(); tween(q('.dive-badge'), { keyframes: [{ rotation: -6 }, { rotation: 4 }, { rotation: -2 }, { rotation: 0 }], duration: 1.4, onComplete: startSway }); } };
     const visibility = () => { if (document.hidden) { settle(); sway?.pause(); } else startSway(); };
     root.addEventListener('wheel', wheel, { passive: false });
     root.addEventListener('pointerdown', down); root.addEventListener('pointerup', up); root.addEventListener('pointercancel', cancelTouch);
+    root.addEventListener('touchstart', returnTouchStart, { passive: true });
+    root.addEventListener('touchmove', returnTouchMove, { passive: false });
+    root.addEventListener('touchend', returnTouchEnd); root.addEventListener('touchcancel', returnTouchEnd);
     const badgeHits = q('.dive-badge-hit'); badgeHits.forEach(hit => hit.addEventListener('pointerenter', swing));
     window.addEventListener('keydown', key); media.addEventListener('change', settle); document.addEventListener('visibilitychange', visibility);
     const resize = new ResizeObserver(() => place()); resize.observe(root); resize.observe(root.querySelector('.dive-ticket')!); resize.observe(root.querySelector('.dive-description')!);
@@ -236,6 +276,8 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
       disposed = true; stop(); controls.current = null; controller.abort(); window.clearTimeout(entranceTimeout);
       resize.disconnect(); context.revert(); video.removeAttribute('src'); video.load(); if (blobUrl) URL.revokeObjectURL(blobUrl);
       root.removeEventListener('wheel', wheel); root.removeEventListener('pointerdown', down); root.removeEventListener('pointerup', up); root.removeEventListener('pointercancel', cancelTouch);
+      root.removeEventListener('touchstart', returnTouchStart); root.removeEventListener('touchmove', returnTouchMove);
+      root.removeEventListener('touchend', returnTouchEnd); root.removeEventListener('touchcancel', returnTouchEnd);
       badgeHits.forEach(hit => hit.removeEventListener('pointerenter', swing));
       window.removeEventListener('keydown', key); media.removeEventListener('change', settle); document.removeEventListener('visibilitychange', visibility);
     };
