@@ -1,5 +1,5 @@
 ﻿import { useEffect, useRef, useState } from 'react';
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react';
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, House, Layers3, MessageCircle, Pause, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getProjects } from '../../lib/supabase';
 import { INITIAL_PROJECTS } from '../../lib/mockData';
@@ -94,10 +94,11 @@ export const HeroSection = () => {
       </div>
       <div className="dive-ui">
         <nav className="dive-nav" aria-label="Studio navigation">
-          <button className="dive-nav-tag dive-tag-studio" data-selected={dive.mode === 'hero'} aria-pressed={dive.mode === 'hero'} onClick={dive.home} disabled={dive.busy}>Home</button>
-          <button className="dive-nav-tag dive-tag-work" data-selected={dive.mode === 'case'} aria-pressed={dive.mode === 'case'} onClick={dive.open} disabled={dive.busy || !projects.length}>Projects</button>
-          <button className="dive-nav-tag dive-tag-contact" onClick={() => leave('contact')}>Let's talk <ArrowUpRight size={16} aria-hidden="true" /></button>
           <button className="dive-centre-logo" onClick={dive.home} disabled={dive.busy} aria-label="Back to introduction">IMD.</button>
+          <span className="dive-nav-divider" aria-hidden="true" />
+          <button className="dive-nav-tag dive-tag-studio" data-selected={dive.mode === 'hero'} aria-pressed={dive.mode === 'hero'} onClick={dive.home} disabled={dive.busy}><House size={16} aria-hidden="true" />Home</button>
+          <button className="dive-nav-tag dive-tag-work" data-selected={dive.mode === 'case'} aria-pressed={dive.mode === 'case'} onClick={dive.open} disabled={dive.busy || !projects.length}><Layers3 size={16} aria-hidden="true" />Projects</button>
+          <button className="dive-nav-tag dive-tag-contact" onClick={() => leave('contact')}><MessageCircle size={16} aria-hidden="true" />Let's talk <ArrowUpRight className="dive-contact-arrow" size={14} aria-hidden="true" /></button>
         </nav>
         <div className="dive-mobile-art" aria-hidden="true"><Wordmark mobile /><span className="dive-script dive-mobile-script dive-hero-content">frontend developer</span><div className="dive-mobile-badge"><div className="dive-badge-scale"><Badge /></div></div></div>
         <div className="dive-intro dive-hero-content" inert={dive.busy || dive.mode !== 'hero'}>
@@ -109,6 +110,7 @@ export const HeroSection = () => {
         <button className="dive-hint dive-hero-content" onClick={dive.open} disabled={dive.busy || !projects.length}><span className="dive-drip" />Explore projects <ArrowDown size={14} /></button>
         <div className="dive-case-ui" inert={dive.busy || dive.mode !== 'case'}>
           <div className="dive-project-panel">
+          <div className="dive-project-content">
           {project ? <>
             <article className="dive-ticket" aria-live="polite" aria-atomic="true">
               <i /><i /><i /><i />
@@ -124,6 +126,7 @@ export const HeroSection = () => {
               <div className="dive-description-actions"><Link to={`/projects/${project.slug}`} className="dive-detail-link">View project <ArrowUpRight size={16} /></Link><button className="dive-full-portfolio" onClick={() => leave('projects')}>All projects <ArrowUpRight size={14} /></button></div>
             </div>
           </> : <><div className="dive-ticket"><h2>Projects</h2></div><div className="dive-description">Explore the full portfolio below.</div></>}
+          </div>
           <div className="dive-case-navigation">
             <button className={`dive-case-button dive-previous ${dive.index === 0 ? 'dim' : ''}`} onClick={dive.previous} disabled={dive.busy} aria-label={dive.index === 0 ? 'Return to my studio' : 'Previous project'}><span><ArrowLeft /></span><b>Previous</b></button>
             <button className="dive-case-button dive-next" onClick={dive.next} disabled={dive.busy || !projects.length} aria-label="Next project"><span><ArrowRight /></span><b>Next</b></button>

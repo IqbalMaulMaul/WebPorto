@@ -175,6 +175,7 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
       await tween(q('.dive-preview'), { opacity: 0, duration: 0.35 });
       if (!valid(token)) return;
       index = next % count; publish(); await paint();
+      q('.dive-project-content').forEach(element => { element.scrollTop = 0; });
       if (valid(token)) { place(0.45); await caseIn(token); }
     };
     controls.current = {
