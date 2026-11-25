@@ -94,20 +94,19 @@ export const HeroSection = () => {
       </div>
       <div className="dive-ui">
         <nav className="dive-nav" aria-label="Studio navigation">
-          <button className="dive-nav-tag dive-tag-studio" data-selected={dive.mode === 'hero'} onClick={dive.home} disabled={dive.busy}>my studio</button>
-          <button className="dive-nav-tag dive-tag-work" data-selected={dive.mode === 'case'} onClick={dive.open} disabled={dive.busy || !projects.length}>portfolio <ArrowUpRight size={15} /></button>
-          <button className="dive-nav-tag dive-tag-contact" onClick={() => leave('contact')}>contacts</button>
-          <button className="dive-nav-tag dive-tag-discuss" onClick={() => leave('contact')}>discuss a project <ArrowUpRight size={15} /></button>
-          <button className="dive-centre-logo" onClick={dive.home} disabled={dive.busy} aria-label="Return to my studio">IMD.</button>
+          <button className="dive-nav-tag dive-tag-studio" data-selected={dive.mode === 'hero'} aria-pressed={dive.mode === 'hero'} onClick={dive.home} disabled={dive.busy}>Home</button>
+          <button className="dive-nav-tag dive-tag-work" data-selected={dive.mode === 'case'} aria-pressed={dive.mode === 'case'} onClick={dive.open} disabled={dive.busy || !projects.length}>Projects</button>
+          <button className="dive-nav-tag dive-tag-contact" onClick={() => leave('contact')}>Let's talk <ArrowUpRight size={16} aria-hidden="true" /></button>
+          <button className="dive-centre-logo" onClick={dive.home} disabled={dive.busy} aria-label="Back to introduction">IMD.</button>
         </nav>
         <div className="dive-mobile-art" aria-hidden="true"><Wordmark mobile /><span className="dive-script dive-mobile-script dive-hero-content">frontend developer</span><div className="dive-mobile-badge"><div className="dive-badge-scale"><Badge /></div></div></div>
         <div className="dive-intro dive-hero-content" inert={dive.busy || dive.mode !== 'hero'}>
           <span className="dive-availability"><i /> Available for opportunities</span>
           <h2>Iqbal Maulana Dhiti<span>Frontend developer.</span></h2>
           <p>I build thoughtful interfaces and interactive web experiences — where clean code meets a little imagination.</p>
-          <div className="dive-intro-footer"><span>Based in Indonesia</span><button onClick={() => leave('about')}>A little about me <ArrowUpRight size={15} /></button></div>
+          <div className="dive-intro-footer"><span>Based in Indonesia</span><button onClick={() => leave('about')}>About me <ArrowUpRight size={15} /></button></div>
         </div>
-        <button className="dive-hint dive-hero-content" onClick={dive.open} disabled={dive.busy || !projects.length}><span className="dive-drip" />scroll into the work <ArrowDown size={14} /></button>
+        <button className="dive-hint dive-hero-content" onClick={dive.open} disabled={dive.busy || !projects.length}><span className="dive-drip" />Explore projects <ArrowDown size={14} /></button>
         <div className="dive-case-ui" inert={dive.busy || dive.mode !== 'case'}>
           <div className="dive-project-panel">
           {project ? <>
@@ -136,7 +135,7 @@ export const HeroSection = () => {
           <button className="dive-profile-link" onClick={() => leave('about')}>Profile <ArrowUpRight size={14} /></button>
         </div>
         {assetError && <p className="dive-asset-notice" role="status">Studio artwork unavailable. Your projects and profile are still accessible.</p>}
-        <span className="sr-only" role="status">{dive.busy ? 'Changing studio view' : dive.mode === 'case' ? `Project ${dive.index + 1} of ${projects.length}` : 'Studio introduction. Use portfolio to explore or profile to continue reading.'}</span>
+        <span className="sr-only" role="status">{dive.busy ? 'Changing studio view' : dive.mode === 'case' ? `Project ${dive.index + 1} of ${projects.length}` : 'Introduction. Use Projects to explore or About me to continue reading.'}</span>
       </div>
     </section>
   );

@@ -121,10 +121,9 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
         if (disposed || motionOff() || !activeRef.current || performance.now() - started > 8000) return finish();
         const progress = video.duration ? video.currentTime / video.duration : 0;
         if (progress >= 0.995) return finish();
-        video.playbackRate = 2;
         videoFrame = requestAnimationFrame(tick);
       };
-      video.playbackRate = 2;
+      video.playbackRate = 2.5;
       video.play().then(tick).catch(finish);
     });
     const enter = async () => {
