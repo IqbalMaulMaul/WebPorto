@@ -22,7 +22,7 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
     const context = gsap.context(() => {}, root);
     const controller = new AbortController();
     let mode: Mode = 'hero', index = 0, busy = false, paused = false, disposed = false;
-    let epoch = 0, wheelAt = -Infinity, blobUrl = '', videoFrame = 0, entranceStarted = false;
+    let epoch = 0, wheelAt = -Infinity, videoFrame = 0, entranceStarted = false, playingDive = false;
     let stopPlayback = () => {};
     let sway: gsap.core.Tween | undefined;
     const q = (selector: string) => root.querySelectorAll<HTMLElement>(selector);
@@ -40,7 +40,7 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
       if (disposed) return;
       const ticket = root.querySelector<HTMLElement>('.dive-ticket')!;
       const desc = root.querySelector<HTMLElement>('.dive-description')!;
-      const p = laptopPose(root.clientWidth, root.clientHeight, mode, ticket.offsetHeight, desc.offsetHeight);
+      const p = laptopPose(root.clientWidth, root.clientHeight, playingDive ? 'hero' : mode, ticket.offsetHeight, desc.offsetHeight);
       root.style.setProperty('--du', `${p.unit}px`);
       root.style.setProperty('--badge-scale', `${root.clientWidth * 0.27 / 582}`);
       root.style.setProperty('--ticket-height', `${ticket.offsetHeight}px`);
@@ -68,12 +68,12 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
       video.pause(); cancelAnimationFrame(videoFrame);
     };
     const settle = () => {
-      stop(); busy = false;
+      stop(); busy = false; playingDive = false;
       set('.dive-nav-tag', { opacity: 1, y: 0, rotation: 0 });
       set('.dive-hero-content', { opacity: mode === 'hero' ? 1 : 0, y: 0, yPercent: 0, rotation: 0, clipPath: 'inset(0)' });
       set('.dive-plate', { opacity: 1, scale: 1, filter: 'blur(0px)', visibility: mode === 'hero' ? 'visible' : 'hidden' });
-      set('.dive-cut', { opacity: mode === 'hero' ? 1 : 0 });
       set('.dive-transition,.dive-flash', { opacity: 0 });
+      set('.dive-project-panel', { opacity: mode === 'case' ? 1 : 0 });
       set('.dive-caseplate,.dive-screen,.dive-ticket,.dive-description > *,.dive-case-navigation', { opacity: mode === 'case' ? 1 : 0, y: 0, rotation: 0, scale: 1, filter: 'blur(0px)' });
       set('.dive-preview', { opacity: 1, scale: 1 });
       root.dataset.ready = 'true';
@@ -89,9 +89,10 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
       tween(q('.dive-intro,.dive-hint'), { opacity: 1, duration: 0.6, delay: motionOff() ? 0 : 0.75 });
     };
     const caseIn = async (token: number) => {
+      set('.dive-project-panel', { opacity: 1 });
       set('.dive-caseplate', { opacity: 1, filter: 'blur(0px)' });
       set('.dive-plate', { visibility: 'hidden' });
-      set('.dive-transition,.dive-cut', { opacity: 0 });
+      set('.dive-transition', { opacity: 0 });
       set('.dive-screen,.dive-case-navigation', { opacity: 1, y: 0 });
       set('.dive-ticket', { opacity: 0, y: -60, rotation: -6 });
       set('.dive-description > *', { opacity: 0, y: 14 });
@@ -117,35 +118,41 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
       stopPlayback = finish;
       video.addEventListener('ended', finish); video.addEventListener('error', finish);
       const tick = () => {
-        if (disposed || motionOff() || !activeRef.current || performance.now() - started > 4500) return finish();
+        if (disposed || motionOff() || !activeRef.current || performance.now() - started > 8000) return finish();
         const progress = video.duration ? video.currentTime / video.duration : 0;
         if (progress >= 0.995) return finish();
-        video.playbackRate = Math.max(1.2, 1.8 + 2.4 * Math.sin(Math.PI * Math.min(progress * 1.08, 1)));
+        video.playbackRate = 2;
         videoFrame = requestAnimationFrame(tick);
       };
+      video.playbackRate = 2;
       video.play().then(tick).catch(finish);
     });
     const enter = async () => {
       if (busy || !count) return;
       busy = true; const token = ++epoch; sway?.kill(); publish();
+      set('.dive-project-panel', { opacity: 0 });
       // A click during the entrance must not let its delayed tweens restore the hero.
       gsap.killTweensOf(q('.dive-hero-content'));
       tween(q('.dive-wordmark'), { opacity: 0, y: -40, duration: 0.38 });
       tween(q('.dive-script,.dive-intro,.dive-hint'), { opacity: 0, duration: 0.3 });
       await tween(q('.dive-badge'), { opacity: 0, yPercent: -110, rotation: -6, duration: 0.33 });
       if (!valid(token)) return;
+      playingDive = !motionOff() && video.readyState >= 2;
       mode = 'case'; index = 0; publish(); await paint();
       if (!valid(token)) return;
-      if (!motionOff() && video.readyState >= 2) {
+      if (playingDive) {
         video.currentTime = 0;
         set('.dive-transition', { opacity: 1 });
         await paint(); if (!valid(token)) return;
         set('.dive-plate', { visibility: 'hidden' });
-        tween(q('.dive-cut'), { opacity: 0, duration: 0.26 });
-        place(1.6);
+        place();
         await playDive();
-      } else { place(); set('.dive-cut', { opacity: 0 }); }
-      if (valid(token)) await caseIn(token);
+      }
+      if (valid(token)) {
+        playingDive = false;
+        place(0.7);
+        await caseIn(token);
+      }
     };
     const home = async () => {
       if (busy || mode === 'hero') return;
@@ -156,7 +163,6 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
       mode = 'hero'; publish(); place(0.9);
       set('.dive-plate', { visibility: 'visible', scale: motionOff() ? 1 : 1.12, filter: motionOff() ? 'none' : 'blur(8px)' });
       tween(q('.dive-caseplate'), { opacity: 0, filter: motionOff() ? 'none' : 'blur(12px)', duration: 0.8 });
-      tween(q('.dive-cut'), { opacity: 1, duration: 0.7, delay: motionOff() ? 0 : 0.15 });
       heroIn();
       await tween(q('.dive-plate'), { scale: 1, filter: 'blur(0px)', duration: 1.1 });
       if (valid(token)) { busy = false; publish(); place(); }
@@ -267,14 +273,11 @@ export function useLaptopDive(rootRef: RefObject<HTMLElement | null>, count: num
     const imageReady = plate.complete ? Promise.resolve() : new Promise<void>(resolve => { plate.addEventListener('load', () => resolve(), { once: true, signal: controller.signal }); plate.addEventListener('error', () => resolve(), { once: true, signal: controller.signal }); });
     const entranceTimeout = window.setTimeout(entrance, 2500);
     Promise.all([document.fonts.ready, imageReady]).then(entrance);
-    // Blob playback avoids stalls when this single-keyframe clip seeks to its start.
-    if (!media.matches) fetch(laptopAssets.transition, { signal: controller.signal }).then(response => { if (!response.ok) throw Error('Transition unavailable'); return response.blob(); }).then(blob => {
-      if (disposed) return;
-      blobUrl = URL.createObjectURL(blob); video.src = blobUrl; video.load();
-    }).catch(() => { if (!disposed) { video.src = laptopAssets.transition; video.load(); } });
+    // Local media supports normal streaming/range requests without downloading a Blob first.
+    if (!media.matches) { video.src = laptopAssets.transition; video.load(); }
     return () => {
       disposed = true; stop(); controls.current = null; controller.abort(); window.clearTimeout(entranceTimeout);
-      resize.disconnect(); context.revert(); video.removeAttribute('src'); video.load(); if (blobUrl) URL.revokeObjectURL(blobUrl);
+      resize.disconnect(); context.revert(); video.removeAttribute('src'); video.load();
       root.removeEventListener('wheel', wheel); root.removeEventListener('pointerdown', down); root.removeEventListener('pointerup', up); root.removeEventListener('pointercancel', cancelTouch);
       root.removeEventListener('touchstart', returnTouchStart); root.removeEventListener('touchmove', returnTouchMove);
       root.removeEventListener('touchend', returnTouchEnd); root.removeEventListener('touchcancel', returnTouchEnd);

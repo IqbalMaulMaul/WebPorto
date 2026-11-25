@@ -77,13 +77,12 @@ export const HeroSection = () => {
       <h1 id="hero-title" className="sr-only">Iqbal Maulana Dhiti</h1>
       <div className="dive-stage" aria-hidden="true">
         <div className="dive-frame">
-          <img className="dive-plate" src={laptopAssets.plate} alt="" width="1440" height="956" fetchPriority="high" onError={() => setAssetError(true)} />
+          <img className="dive-plate" src={laptopAssets.plate} alt="" width="1672" height="941" fetchPriority="high" onError={() => setAssetError(true)} />
           <Wordmark />
-          <img className="dive-cut" src={laptopAssets.cut} alt="" width="1440" height="956" />
           <div className="dive-badge-anchor"><Badge /></div>
           <span className="dive-script dive-hero-content">frontend developer</span>
           <video className="dive-transition" muted playsInline preload="auto" disablePictureInPicture />
-          <img className="dive-caseplate" src={laptopAssets.casePlate} alt="" width="1440" height="956" onError={() => setAssetError(true)} />
+          <img className="dive-caseplate" src={laptopAssets.casePlate} alt="" width="1280" height="720" onError={() => setAssetError(true)} />
           <div className="dive-screen">
             {project && !coverError && <div className={`dive-preview ${project.screenshots && project.screenshots.length > 1 ? 'dive-preview--gallery' : ''}`}>
               {(project.screenshots && project.screenshots.length > 1 ? project.screenshots.slice(0, 3) : [project.cover_image]).map(source => <img key={source} src={source} alt="" onError={() => setFailedCover(project.id)} />)}
