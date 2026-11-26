@@ -176,18 +176,14 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-heading { translate: none; }
 }
-.name-marquee { position: relative; overflow: hidden; margin-block: 34px; padding-block: clamp(36px,4vw,64px); border-block: 1px solid var(--line); background: var(--lime); color: var(--forest); }
+.name-marquee { position: relative; overflow: hidden; margin-block: 34px; padding-block: clamp(14px,1.5vw,24px); border-block: 1px solid var(--line); background: var(--lime); color: var(--forest); }
 .name-marquee-track { display: flex; width: max-content; animation: name-marquee 48s linear infinite; }
 .name-marquee-group { display: flex; flex-shrink: 0; min-width: 100vw; justify-content: space-around; }
 .name-marquee-item { display: inline-flex; align-items: center; flex-shrink: 0; gap: clamp(28px,4vw,72px); padding-right: clamp(28px,4vw,72px); white-space: nowrap; font: italic 400 clamp(38px,5.8vw,92px)/1.2 var(--font-display); letter-spacing: -.025em; }
 .name-marquee-diamond { font: normal 400 .48em/1 Georgia,serif; color: var(--accent); }
-.name-marquee-toggle { position: absolute; right: 12px; bottom: 4px; width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--line-strong); border-radius: 50%; background: var(--lime); }
-.name-marquee-toggle:hover { background: var(--paper); }
-.name-marquee[data-paused=true] .name-marquee-track,.name-marquee:focus-within .name-marquee-track { animation-play-state: paused; }
-@media(hover:hover) { .name-marquee:hover .name-marquee-track { animation-play-state: paused; } }
 @keyframes name-marquee { to { transform: translateX(-50%); } }
 @media(prefers-reduced-motion:reduce) {
   .name-marquee-track { animation: none; }
-  .name-marquee-group + .name-marquee-group,.name-marquee-item + .name-marquee-item,.name-marquee-diamond,.name-marquee-toggle { display: none; }
+  .name-marquee-group + .name-marquee-group,.name-marquee-item + .name-marquee-item,.name-marquee-diamond { display: none; }
   .name-marquee-item { padding: 0; font-size: clamp(26px,5.8vw,92px); }
 }
