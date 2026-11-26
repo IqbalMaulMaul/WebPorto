@@ -53,18 +53,6 @@ export function useStudioMotion() {
       const mutation = new MutationObserver(() => discover());
       mutation.observe(root, { childList: true, subtree: true });
 
-      const study = root.querySelector('.material-stage');
-      if (study) {
-        const title = gsap.fromTo('.material-copy h2 > span > span', { yPercent: 115, rotation: 8 }, {
-          yPercent: 0, rotation: 0, duration: 1.3, stagger: 0.12, ease: 'power4.out', immediateRender: false,
-          scrollTrigger: { trigger: study, start: 'top 75%', once: true },
-        });
-        reveals.set(study, title);
-        gsap.fromTo('.material-image', { scale: 1.16, yPercent: -3 }, {
-          scale: 1, yPercent: 3, ease: 'none',
-          scrollTrigger: { trigger: study, start: 'top bottom', end: 'bottom top', scrub: 1 },
-        });
-      }
       gsap.fromTo('.portrait-bloom', { rotation: -32, y: 50 }, {
         rotation: 28, y: -45, ease: 'none',
         scrollTrigger: { trigger: '.portrait-composition', start: 'top bottom', end: 'bottom top', scrub: 0.8 },

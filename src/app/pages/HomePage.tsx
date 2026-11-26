@@ -5,10 +5,10 @@ import { FeaturedProjects } from '../../components/sections/FeaturedProjects';
 import { ExperienceTimeline } from '../../components/sections/ExperienceTimeline';
 import { ContactSection } from '../../components/sections/ContactSection';
 import { useStudioMotion } from '../../hooks/useStudioMotion';
-import { MaterialStudy } from '../../components/sections/MaterialStudy';
+import { NameMarquee } from '../../components/sections/NameMarquee';
 
 export const HomePage = () => {
   useStudioMotion();
-  return <><HeroSection /><ExperienceTimeline /><AboutSection /><SkillsSection /><MaterialStudy /><FeaturedProjects /><ContactSection /></>;
+  return <><HeroSection /><ExperienceTimeline /><AboutSection /><SkillsSection /><NameMarquee /><FeaturedProjects /><ContactSection /></>;
 };
 
