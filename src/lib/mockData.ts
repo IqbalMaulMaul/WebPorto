@@ -66,8 +66,8 @@ export const INITIAL_EXPERIENCES: Experience[] = [
 ];
 
 export const INITIAL_SOCIALS: SocialLink[] = [
-  { id: 'soc-1', platform: 'GitHub', label: 'github.com/iqbalmaulanadhiti', url: 'https://github.com/iqbalmaulanadhiti', icon: 'Github', sort_order: 1, visible: true },
-  { id: 'soc-2', platform: 'LinkedIn', label: 'linkedin.com/in/iqbalmaulanadhiti', url: 'https://linkedin.com/in/iqbalmaulanadhiti', icon: 'Linkedin', sort_order: 2, visible: true },
-  { id: 'soc-3', platform: 'Email', label: 'iqbal.maulana.dhiti@gmail.com', url: 'mailto:iqbal.maulana.dhiti@gmail.com', icon: 'Mail', sort_order: 3, visible: true },
-  { id: 'soc-4', platform: 'Instagram', label: '@iqbalmaulanadhiti', url: 'https://instagram.com', icon: 'Instagram', sort_order: 4, visible: true },
+  { id: 'soc-1', platform: 'GitHub', label: 'github.com/IqbalMaulMaul', url: 'https://github.com/IqbalMaulMaul', icon: 'Github', sort_order: 1, visible: true },
+  { id: 'soc-2', platform: 'LinkedIn', label: 'linkedin.com/in/iqbal-maulana-dhiti-537a173b2', url: 'https://www.linkedin.com/in/iqbal-maulana-dhiti-537a173b2/', icon: 'Linkedin', sort_order: 2, visible: true },
+  { id: 'soc-3', platform: 'Email', label: 'iqbalmaulanadhiti05@gmail.com', url: 'mailto:iqbalmaulanadhiti05@gmail.com', icon: 'Mail', sort_order: 3, visible: true },
+  { id: 'soc-4', platform: 'Instagram', label: '@ibalmaumau', url: 'https://www.instagram.com/ibalmaumau/', icon: 'Instagram', sort_order: 4, visible: true },
 ];

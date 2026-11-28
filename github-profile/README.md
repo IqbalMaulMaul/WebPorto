@@ -16,8 +16,8 @@
 
 <p align="center">
   <a href="https://github.com/IqbalMaulMaul?tab=repositories"><img src="https://img.shields.io/badge/Explore_my_work-163B32?style=for-the-badge&amp;logo=github&amp;logoColor=A7F3D0" alt="Explore my GitHub repositories" /></a>
-  <a href="mailto:iqbalmaulanadhiti@gmail.com"><img src="https://img.shields.io/badge/Let's_talk-163B32?style=for-the-badge&amp;logo=gmail&amp;logoColor=A7F3D0" alt="Email Iqbal" /></a>
-  <a href="https://instagram.com/iqbalmsdhiti"><img src="https://img.shields.io/badge/Instagram-163B32?style=for-the-badge&amp;logo=instagram&amp;logoColor=A7F3D0" alt="Instagram: iqbalmsdhiti" /></a>
+  <a href="mailto:iqbalmaulanadhiti05@gmail.com"><img src="https://img.shields.io/badge/Let's_talk-163B32?style=for-the-badge&amp;logo=gmail&amp;logoColor=A7F3D0" alt="Email Iqbal" /></a>
+  <a href="https://www.instagram.com/ibalmaumau/"><img src="https://img.shields.io/badge/Instagram-163B32?style=for-the-badge&amp;logo=instagram&amp;logoColor=A7F3D0" alt="Instagram: ibalmaumau" /></a>
 </p>
 
 ---
@@ -76,7 +76,7 @@ I'm an Informatics student who enjoys building web applications and exploring th
 
 <p align="center">
   <b>Have an idea? Let's build something together.</b><br />
-  <a href="mailto:iqbalmaulanadhiti@gmail.com">Email</a> ·
-  <a href="https://instagram.com/iqbalmsdhiti">Instagram</a> ·
+  <a href="mailto:iqbalmaulanadhiti05@gmail.com">Email</a> ·
+  <a href="https://www.instagram.com/ibalmaumau/">Instagram</a> ·
   <a href="https://github.com/IqbalMaulMaul">GitHub</a>
 </p>

@@ -186,8 +186,8 @@ ON CONFLICT DO NOTHING;
 
 -- 4. Seed Social Links
 INSERT INTO public.social_links (platform, label, url, icon, sort_order, visible) VALUES
-('GitHub', 'github.com/iqbalmaulanadhiti', 'https://github.com/iqbalmaulanadhiti', 'Github', 1, true),
-('LinkedIn', 'linkedin.com/in/iqbalmaulanadhiti', 'https://linkedin.com/in/iqbalmaulanadhiti', 'Linkedin', 2, true),
-('Email', 'iqbal.maulana.dhiti@gmail.com', 'mailto:iqbal.maulana.dhiti@gmail.com', 'Mail', 3, true),
-('Instagram', '@iqbalmaulanadhiti', 'https://instagram.com', 'Instagram', 4, true)
+('GitHub', 'github.com/IqbalMaulMaul', 'https://github.com/IqbalMaulMaul', 'Github', 1, true),
+('LinkedIn', 'linkedin.com/in/iqbal-maulana-dhiti-537a173b2', 'https://www.linkedin.com/in/iqbal-maulana-dhiti-537a173b2/', 'Linkedin', 2, true),
+('Email', 'iqbalmaulanadhiti05@gmail.com', 'mailto:iqbalmaulanadhiti05@gmail.com', 'Mail', 3, true),
+('Instagram', '@ibalmaumau', 'https://www.instagram.com/ibalmaumau/', 'Instagram', 4, true)
 ON CONFLICT DO NOTHING;

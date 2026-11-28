@@ -23,8 +23,8 @@ const Badge = () => (
       <img className="dive-badge-photo" src="/images/profile-mobile.webp" alt="" width="92" height="112" />
       <div className="dive-badge-row"><span>NAME</span><b>Iqbal Maulana Dhiti</b></div>
       <div className="dive-badge-row"><span>BASED IN</span><b>Indonesia</b></div>
-      <div className="dive-badge-row"><span>IG</span><b>@iqbalmsdhiti</b></div>
-      <div className="dive-badge-row dive-badge-email"><span>EMAIL</span><b>iqbalmaulanadhiti@gmail.com</b></div>
+      <div className="dive-badge-row"><span>IG</span><b>@ibalmaumau</b></div>
+      <div className="dive-badge-row dive-badge-email"><span>EMAIL</span><b>iqbalmaulanadhiti05@gmail.com</b></div>
     </div>
     <div className="dive-badge-hit" />
   </div>

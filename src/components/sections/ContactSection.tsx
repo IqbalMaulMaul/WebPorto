@@ -32,10 +32,10 @@ const handleSubmit = async (e: FormEvent) => {
   };
 
   const SOCIAL = [
-    { label: 'GitHub', value: 'github.com/iqbalmaulanadhiti', href: 'https://github.com/iqbalmaulanadhiti', icon: GithubIcon },
-    { label: 'LinkedIn', value: 'linkedin.com/in/iqbalmaulanadhiti', href: 'https://linkedin.com/in/iqbalmaulanadhiti', icon: LinkedinIcon },
-    { label: 'Email', value: 'iqbalmaulanadhiti@gmail.com', href: 'mailto:iqbalmaulanadhiti@gmail.com', icon: Mail },
-    { label: 'Instagram', value: '@iqbalmsdhiti', href: 'https://instagram.com/iqbalmsdhiti', icon: InstagramIcon },
+    { label: 'GitHub', value: 'github.com/IqbalMaulMaul', href: 'https://github.com/IqbalMaulMaul', icon: GithubIcon },
+    { label: 'LinkedIn', value: 'linkedin.com/in/iqbal-maulana-dhiti-537a173b2', href: 'https://www.linkedin.com/in/iqbal-maulana-dhiti-537a173b2/', icon: LinkedinIcon },
+    { label: 'Email', value: 'iqbalmaulanadhiti05@gmail.com', href: 'mailto:iqbalmaulanadhiti05@gmail.com', icon: Mail },
+    { label: 'Instagram', value: '@ibalmaumau', href: 'https://www.instagram.com/ibalmaumau/', icon: InstagramIcon },
   ];
 
   return (
