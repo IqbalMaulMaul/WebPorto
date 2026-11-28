@@ -4,9 +4,20 @@ const tech = (name: string, category: Technology['category'] = 'Frontend'): Tech
   id: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'), name, category, sort_order: 0,
 });
 
-// Verified against GitHub and the public demo URLs on 19 November 2026.
+// Verified against GitHub and public demos; Celopix added on 28 November 2026.
 // Private repository contents and GitHub credentials are never sent to the browser.
 export const GITHUB_PROJECTS: Project[] = [
+  {
+    id: 'github-celopix', slug: 'celopix', title: 'Celopix — Online Photobooth',
+    summary: 'Photobooth online untuk mengambil foto, memilih frame, menambahkan filter dan stiker, lalu menyimpan hasilnya.',
+    description: 'Celopix menghadirkan pengalaman photobooth langsung di browser tanpa instalasi aplikasi. Pengunjung dapat memilih frame, mengambil foto, menambahkan filter dan stiker, serta menyimpan dan membagikan hasilnya. Dibangun menggunakan Next.js, React, TypeScript, Tailwind CSS, dan Supabase.',
+    role: 'Project collaboration', period: '2026', featured: true, status: 'published', sort_order: 0,
+    demo_url: 'https://celopix.id/', repository_visibility: 'private',
+    cover_image: '/images/projects/celopix.png',
+    screenshots: ['/images/projects/celopix.png'],
+    technologies: [tech('Next.js'), tech('TypeScript'), tech('React'), tech('Tailwind CSS'), tech('Supabase', 'Backend')],
+    created_at: '2026-04-09',
+  },
   {
     id: 'github-jualin', slug: 'jualin-shopee-automation', title: 'Jualin — Shopee Automation',
     summary: 'Ekstraksi katalog JakMall, pengaturan margin, dan penyiapan listing Shopee dalam satu alur.',
@@ -79,8 +90,12 @@ const legacySlugs = new Set(['nexus-3d-dashboard', 'cyber-portfolio-3d', 'synaps
 
 /** Refresh old starter records without deleting custom projects or overriding CMS edits. */
 export function refreshProjectCatalog(records: Project[]): Project[] {
-  if (!records.some(project => legacySlugs.has(project.slug))) return records;
+  const hasLegacy = records.some(project => legacySlugs.has(project.slug));
+  if (!hasLegacy && !records.some(project => GITHUB_PROJECTS.some(item => item.id === project.id || item.slug === project.slug))) return records;
   const saved = records.filter(project => !legacySlugs.has(project.slug));
-  return [...saved, ...GITHUB_PROJECTS.filter(project => !saved.some(item => item.id === project.id || item.slug === project.slug))]
+  // Add the newly published project to existing catalogs without restoring deleted older entries.
+  const additions = GITHUB_PROJECTS.filter(project => (hasLegacy || project.slug === 'celopix') && !saved.some(item => item.id === project.id || item.slug === project.slug));
+  if (!hasLegacy && !additions.length) return records;
+  return [...saved, ...additions]
     .sort((a, b) => a.sort_order - b.sort_order);
 }
